@@ -33,10 +33,11 @@ class AuthFlowTest extends TestCase
 
     public function test_post_login_sets_session_and_redirects_to_dashboard(): void
     {
-        $this->post(route('login.post'), ['proveedor' => 'google', '_token' => csrf_token()])
+        $this->post(route('login.post'), ['nombre' => 'Juan Pérez', 'proveedor' => 'google', '_token' => csrf_token()])
             ->assertRedirect(route('dashboard'));
 
         $this->assertTrue(session('logged_in'));
+        $this->assertEquals('Juan Pérez', session('nombre'));
         $this->assertEquals('google', session('proveedor'));
     }
 

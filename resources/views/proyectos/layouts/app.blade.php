@@ -30,10 +30,17 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
-                    <a href="{{ route('proyectos.create') }}" class="inline-flex items-center gap-1.5 bg-[#0054e9] hover:bg-[#003eb3] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors shadow-sm">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                        Nuevo proyecto
-                    </a>
+                    @php
+                        $nombre = session('nombre', 'Usuario');
+                        $inicial = mb_strtoupper(mb_substr(trim($nombre), 0, 1)) ?: 'U';
+                    @endphp
+                    <div class="flex items-center gap-2.5 pr-3 border-r border-gray-200">
+                        <div class="w-9 h-9 rounded-full bg-[#8de2d6] flex items-center justify-center text-[#0054e9] font-bold text-sm">{{ $inicial }}</div>
+                        <div class="leading-tight">
+                            <p class="text-sm font-semibold text-gray-800">{{ $nombre }}</p>
+                            <p class="text-xs text-gray-400">Director</p>
+                        </div>
+                    </div>
                     <form action="{{ route('logout') }}" method="POST" class="inline-flex">
                         @csrf
                         <button type="submit" class="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-gray-700 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors" title="Salir">

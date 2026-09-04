@@ -24,10 +24,12 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
+            'nombre' => ['required', 'string', 'max:255'],
             'proveedor' => ['required', 'string', 'in:google,microsoft'],
         ]);
 
         $request->session()->put('logged_in', true);
+        $request->session()->put('nombre', $request->string('nombre'));
         $request->session()->put('proveedor', $request->string('proveedor'));
 
         return redirect()->route('dashboard');
