@@ -7,6 +7,22 @@ y el proyecto sigue la convención de [Commits Convencionales](https://www.conve
 
 ---
 
+## [00a2547] - 2026-09-04
+
+### Changed
+- **Se eliminó el filtro "Trimestre"** (`feat`): el desplegable "Trimestre"
+  (Q1..Q4) se quitó del buscador del listado (`resources/views/proyectos/index.blade.php`),
+  junto con el filtro y el método `applyTrimestre()` de
+  `app/Http/Controllers/ProyectoController.php`. El filtrado ahora es por
+  búsqueda, área, estado y orden por última actualización. Un efecto colateral:
+  Pint eliminó el `use Illuminate\Support\Facades\DB;` que quedó sin uso.
+
+### Files
+- `app/Http/Controllers/ProyectoController.php`
+- `resources/views/proyectos/index.blade.php`
+
+---
+
 ## [4c69dcb] - 2026-09-04
 
 ### Changed
