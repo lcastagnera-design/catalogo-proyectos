@@ -7,6 +7,39 @@ y el proyecto sigue la convención de [Commits Convencionales](https://www.conve
 
 ---
 
+## [4c69dcb] - 2026-09-04
+
+### Changed
+- **Componentes del form como acordeón colapsable** (`feat`): en Nuevo/Editar
+  proyecto (`resources/views/proyectos/partials/_form.blade.php` y
+  `_componente_row.blade.php`), cada componente dejó de mostrar todos sus
+  campos siempre expandidos a ser una **fila-acordeón**:
+  - Un **cabezal clickeable** muestra "Componente N", un **resumen en vivo**
+    (`nombre · tipo · tecnología · versión`), el botón "Quitar" y un chevron
+    que rota al expandir/colapsar.
+  - Al presionar **"+ Agregar componente"**, la fila anterior **queda
+    colapsada** y la nueva se abre con foco — la pantalla se mantiene limpia
+    sin scroll eterno con N componentes.
+  - El **resumen se actualiza solo** mientras se cargan los campos
+    identificatorios (input / change).
+  - En edición, solo la **primera fila** queda expandida; el resto aparecen
+    colapsadas con su resumen.
+  - La lógica usa **delegación de eventos** en el contenedor (quitar, toggle de
+    cabezal, resumen en vivo) para evitar listeners duplicados al clonar filas.
+
+### Changed
+- `tests/Feature/AuthFlowTest.php`: el test que verificaba la página de login
+  (que esperaba "Ingresar con Google" y "Ingresar con Microsoft") se ajustó a
+  que el login ahora solo muestra Microsoft
+  (`test_login_page_is_public_and_renders_microsoft_provider`).
+
+### Files
+- `resources/views/proyectos/partials/_form.blade.php`
+- `resources/views/proyectos/partials/_componente_row.blade.php`
+- `tests/Feature/AuthFlowTest.php`
+
+---
+
 ## [03bbbb6] - 2026-09-04
 
 ### Added
