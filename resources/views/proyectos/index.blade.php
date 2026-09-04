@@ -12,7 +12,7 @@
         </a>
     </div>
 
-    {{-- US-02: Filtros rápidos (búsqueda, área, estado, trimestre, orden). --}}
+    {{-- US-02: Filtros rápidos (búsqueda, área, estado, orden). --}}
     <div class="bg-white rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,.08)] border border-gray-100 p-4 sm:p-5 mb-6">
         <form action="{{ route('proyectos.index') }}" method="GET">
             {{-- Buscador principal en su propia fila, ancho completo (legible). --}}
@@ -47,16 +47,6 @@
                     </select>
                 </div>
 
-                <div class="w-full lg:w-36">
-                    <label for="trimestre" class="block text-xs font-semibold text-gray-600 mb-1">Trimestre</label>
-                    <select id="trimestre" name="trimestre" class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0054e9]/30 focus:border-[#0054e9] bg-white transition-colors">
-                        <option value="">Todos</option>
-                        @foreach (['Q1' => 'Trimestre 1', 'Q2' => 'Trimestre 2', 'Q3' => 'Trimestre 3', 'Q4' => 'Trimestre 4'] as $q => $label)
-                            <option value="{{ $q }}" {{ request('trimestre') === $q ? 'selected' : '' }}>{{ $label }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
                 <div class="w-full lg:w-56">
                     <label for="orden" class="block text-xs font-semibold text-gray-600 mb-1">Última actualización</label>
                     <select id="orden" name="orden" class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0054e9]/30 focus:border-[#0054e9] bg-white transition-colors">
@@ -68,7 +58,7 @@
 
                 <div class="flex items-end gap-2">
                     <button type="submit" class="bg-[#0054e9] hover:bg-[#003eb3] text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors shadow-sm whitespace-nowrap">Filtrar</button>
-                    @if (request()->anyFilled(['search', 'area', 'estado', 'trimestre', 'orden']))
+                    @if (request()->anyFilled(['search', 'area', 'estado', 'orden']))
                         <a href="{{ route('proyectos.index') }}" class="text-sm text-gray-500 hover:text-gray-700 px-3 py-2.5 text-center whitespace-nowrap">Limpiar</a>
                     @endif
                 </div>

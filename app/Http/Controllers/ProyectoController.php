@@ -7,7 +7,6 @@ use App\Models\Proyecto;
 use App\Models\Tecnologia;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ProyectoController extends Controller
 {
@@ -53,10 +52,6 @@ class ProyectoController extends Controller
             // US-02: filtro por estado (activos o archivado).
             ->when($request->filled('estado'), function ($q) use ($request) {
                 $q->where('estado', $request->string('estado'));
-            })
-            // US-02: filtro por trimestre del created_at (Q1..Q4).
-            ->when($request->filled('trimestre'), function ($q) use ($request) {
-                $this->applyTrimestre($q, $request->string('trimestre'));
             })
             // US-02: ordenamiento por última actualización.
             ->when($request->string('orden') === 'updated_asc', function ($q) {
@@ -384,30 +379,6 @@ class ProyectoController extends Controller
             'nombre_normalizado' => $componente['nombre_normalizado'],
             'url_openshift' => $componente['url_openshift'],
         ];
-    }
-
-    /**
-     * Aplica el filtro de trimestre (Q1..Q4) sobre el created_at.
-     */
-    protected function applyTrimestre($query, string $trimestre): void
-    {
-        // Se normaliza a string simple (puede llegar como Stringable desde $request->string()).
-        $trimestre = (string) $trimestre;
-
-        $trimestres = [
-            'Q1' => [1, 3],
-            'Q2' => [4, 6],
-            'Q3' => [7, 9],
-            'Q4' => [10, 12],
-        ];
-
-        if (! isset($trimestres[$trimestre])) {
-            return;
-        }
-
-        [$desde, $hasta] = $trimestres[$trimestre];
-
-        $query->whereBetween(DB::raw('MONTH(created_at)'), [$desde, $hasta]);
     }
 
     /**
