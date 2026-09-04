@@ -1,0 +1,15 @@
+{
+    "$schema": "https://opencode.ai/config.json",
+    "mcp": {
+        "laravel-boost": {
+            "type": "local",
+            "enabled": true,
+            "command": [
+                "wsl.exe",
+                "/usr/local/php8.3/bin/php",
+                "/mnt/c/Users/Leonardo/Documents/Default Project/catalogo-proyectos/artisan",
+                "boost:mcp"
+            ]
+        }
+    }
+}
