@@ -34,6 +34,7 @@ class Proyecto extends Model
         'nombre_proyecto_marca',
         'area_solicitante_id',
         'estado',
+        'url_sharepoint',
     ];
 
     /**

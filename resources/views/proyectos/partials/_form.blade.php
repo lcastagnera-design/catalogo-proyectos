@@ -94,6 +94,17 @@
                 <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
             @enderror
         </div>
+
+        <div>
+            <label for="url_sharepoint" class="block text-sm font-semibold text-gray-700 mb-1.5">URL SharePoint</label>
+            <input type="url" id="url_sharepoint" name="url_sharepoint"
+                value="{{ old('url_sharepoint', $proyecto->url_sharepoint) }}"
+                placeholder="https://..."
+                class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0054e9]/30 focus:border-[#0054e9] bg-gray-50 transition-colors @error('url_sharepoint') border-red-300 bg-red-50 @enderror">
+            @error('url_sharepoint')
+                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+            @enderror
+        </div>
     </div>
 
     {{-- Componentes 1 a N: filas dinámicas --}}

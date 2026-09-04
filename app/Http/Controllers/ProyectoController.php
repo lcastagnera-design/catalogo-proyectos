@@ -98,6 +98,7 @@ class ProyectoController extends Controller
             'area_solicitante_id' => $data['area_solicitante_id'],
             // US-03: estado editable al crear (nunca archivado).
             'estado' => $data['estado'],
+            'url_sharepoint' => $data['url_sharepoint'],
         ]);
 
         foreach ($data['componentes'] as $componente) {
@@ -144,6 +145,7 @@ class ProyectoController extends Controller
             'area_solicitante_id' => $data['area_solicitante_id'],
             // US-03: estado editable al editar (nunca archivado desde el form).
             'estado' => $data['estado'],
+            'url_sharepoint' => $data['url_sharepoint'],
         ]);
 
         // Estrategia robusta: se reemplazan los componentes por la lista enviada.
@@ -327,6 +329,8 @@ class ProyectoController extends Controller
             'area_solicitante_id' => ['required', 'integer', 'exists:ministerio_secretarias,id'],
             // US-03: estado editable, solo los 4 activos (nunca archivado).
             'estado' => ['required', 'string', 'in:'.implode(',', Proyecto::ESTADOS_ACTIVOS)],
+            // URL de SharePoint del proyecto (opcional).
+            'url_sharepoint' => ['nullable', 'url', 'max:255'],
             'componentes' => ['required', 'array', 'min:1'],
             'componentes.*.nombre_componente' => ['required', 'string', 'max:255'],
             'componentes.*.tipo_componente' => ['required', 'string', 'in:'.implode(',', self::TIPO_COMPONENTE)],
@@ -345,6 +349,7 @@ class ProyectoController extends Controller
             'area_solicitante_id.exists' => 'El área solicitante seleccionada no es válida.',
             'estado.required' => 'Debe seleccionar un estado.',
             'estado.in' => 'El estado seleccionado no es válido.',
+            'url_sharepoint.url' => 'La URL de SharePoint debe ser una URL válida.',
             'componentes.required' => 'Debe cargar al menos un componente.',
             'componentes.min' => 'Debe cargar al menos un componente.',
             'componentes.*.nombre_componente.required' => 'El nombre del componente es obligatorio.',
