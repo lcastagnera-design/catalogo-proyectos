@@ -5,18 +5,26 @@
     $componente = $componente ?? new \App\Models\ProyectoComponente();
 @endphp
 
-<div class="componente-row border border-gray-200 rounded-2xl p-4 sm:p-5 bg-gray-50/50 space-y-4">
-    <div class="flex items-start justify-between gap-3">
-        <h3 class="text-sm font-bold text-gray-700">Componente <span class="componente-index">{{ $idx + 1 }}</span></h3>
-        @if ($idx > 0)
-            <button type="button" class="quitar-componente inline-flex items-center gap-1 text-xs font-semibold text-red-500 hover:text-red-700 transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                Quitar
-            </button>
-        @endif
+<div class="componente-row border border-gray-200 rounded-2xl bg-gray-50/50">
+    <div class="componente-cabezal cursor-pointer flex items-center justify-between gap-3 p-4 sm:p-5 select-none">
+        <div class="min-w-0">
+            <h3 class="text-sm font-bold text-gray-700">Componente <span class="componente-index">{{ $idx + 1 }}</span></h3>
+            <p class="componente-resumen text-xs text-gray-500 truncate mt-0.5">
+                Nombre · Tipo · Tecnología · Versión
+            </p>
+        </div>
+        <div class="flex items-center gap-1 shrink-0">
+            @if ($idx > 0)
+                <button type="button" class="quitar-componente inline-flex items-center gap-1 text-xs font-semibold text-red-500 hover:text-red-700 transition-colors px-2 py-1 rounded-lg">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                    Quitar
+                </button>
+            @endif
+            <svg class="componente-chevron w-5 h-5 text-gray-400 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="componente-cuerpo grid grid-cols-1 sm:grid-cols-2 gap-4 px-4 sm:px-5 pb-4 sm:pb-5">
         <div class="sm:col-span-2">
             <label class="block text-xs font-semibold text-gray-600 mb-1">Nombre del componente <span class="text-red-500">*</span></label>
             <input type="text" name="componentes[{{ $idx }}][nombre_componente]" value="{{ old("componentes.$idx.nombre_componente", $componente->nombre_componente) }}"

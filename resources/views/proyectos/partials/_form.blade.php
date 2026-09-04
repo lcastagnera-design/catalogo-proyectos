@@ -130,12 +130,36 @@
             const nivel4 = document.getElementById('nivel4');
             const areasRoute = @json(route('areas'));
 
-            // --- Componentes dinámicos: agregar / quitar y renumerar índices ---
+            // --- Componentes dinámicos: acordeón + agregar/quitar + renumerar ---
             if (container) {
+                const expandir = function (row, abierto) {
+                    const cuerpo = row.querySelector('.componente-cuerpo');
+                    const chevron = row.querySelector('.componente-chevron');
+                    if (!cuerpo) return;
+                    if (abierto) {
+                        cuerpo.classList.remove('hidden');
+                        if (chevron) chevron.classList.remove('-rotate-180');
+                    } else {
+                        cuerpo.classList.add('hidden');
+                        if (chevron) chevron.classList.add('-rotate-180');
+                    }
+                };
+
+                const actualizarResumen = function (row) {
+                    const resumen = row.querySelector('.componente-resumen');
+                    if (resumen) {
+                        const nombre = row.querySelector('[name$="[nombre_componente]"]')?.value || '‐';
+                        const tipo = row.querySelector('[name$="[tipo_componente]"]')?.value || '‐';
+                        const tec = row.querySelector('[name$="[tecnologia]"]')?.value || '‐';
+                        const ver = row.querySelector('[name$="[version]"]')?.value || '‐';
+                        resumen.textContent = nombre + ' · ' + tipo + ' · ' + tec + ' · ' + ver;
+                    }
+                };
+
                 const reindex = function () {
                     const rows = container.querySelectorAll('.componente-row');
                     rows.forEach(function (row, i) {
-                        // Quitar el botón "Quitar" de la primera fila si es una fila nueva.
+                        // Quitar el botón "Quitar" de la primera fila.
                         row.querySelectorAll('.quitar-componente').forEach(function (btn) {
                             btn.style.display = i === 0 ? 'none' : '';
                         });
@@ -146,43 +170,74 @@
                             const field = el.name.replace(/componentes\[\d+\]\[([^\]]+)\]/, '$1');
                             el.name = `componentes[${i}][${field}]`;
                         });
+                        actualizarResumen(row);
                     });
                 };
 
                 const addRow = function () {
-                    const oldRows = container.querySelectorAll('.componente-row');
-                    const row = oldRows[oldRows.length - 1]?.cloneNode(true) ?? null;
+                    const rows = container.querySelectorAll('.componente-row');
+                    const row = rows[rows.length - 1]?.cloneNode(true) ?? null;
                     if (!row) return;
-                    // Vaciar valores
+                    // Vaciar valores.
                     row.querySelectorAll('input, textarea').forEach(function (el) {
                         if (el.type !== 'button') el.value = '';
                     });
                     row.querySelectorAll('select').forEach(function (el) {
                         el.selectedIndex = 0;
                     });
-                    // Asegurar botón quitar
+                    // Colapsar la fila anterior (la que se clonó) y dejar la nueva expandida.
+                    if (rows.length) expandir(rows[rows.length - 1], false);
+                    expandir(row, true);
+                    // Asegurar botón quitar.
                     if (!row.querySelector('.quitar-componente')) {
-                        const head = row.querySelector('.flex.items-start');
+                        const head = row.querySelector('.componente-cabezal .flex.items-center');
                         if (head) {
                             const btn = document.createElement('button');
                             btn.type = 'button';
-                            btn.className = 'quitar-componente inline-flex items-center gap-1 text-xs font-semibold text-red-500 hover:text-red-700 transition-colors';
+                            btn.className = 'quitar-componente inline-flex items-center gap-1 text-xs font-semibold text-red-500 hover:text-red-700 transition-colors px-2 py-1 rounded-lg';
                             btn.textContent = 'Quitar';
-                            btn.addEventListener('click', function () { row.remove(); reindex(); });
                             head.appendChild(btn);
                         }
                     }
                     container.appendChild(row);
                     reindex();
+                    const nombreInput = row.querySelector('[name$="[nombre_componente]"]');
+                    if (nombreInput) nombreInput.focus();
                 };
 
                 if (addBtn) addBtn.addEventListener('click', addRow);
 
+                // Delegación de eventos en el contenedor: quitar, toggle de cabezal y resumen en vivo.
                 container.addEventListener('click', function (e) {
-                    if (e.target.closest('.quitar-componente')) {
-                        e.target.closest('.componente-row').remove();
+                    const quitarBtn = e.target.closest('.quitar-componente');
+                    if (quitarBtn) {
+                        quitarBtn.closest('.componente-row').remove();
                         reindex();
+                        return;
                     }
+                    const cabezal = e.target.closest('.componente-cabezal');
+                    if (cabezal) {
+                        const row = cabezal.closest('.componente-row');
+                        const cuerpo = row.querySelector('.componente-cuerpo');
+                        expandir(row, cuerpo.classList.contains('hidden'));
+                    }
+                });
+                container.addEventListener('input', function (e) {
+                    const el = e.target;
+                    if (el.matches('[name$="[nombre_componente]"], [name$="[tipo_componente]"], [name$="[tecnologia]"], [name$="[version]"]')) {
+                        actualizarResumen(el.closest('.componente-row'));
+                    }
+                });
+                container.addEventListener('change', function (e) {
+                    const el = e.target;
+                    if (el.matches('select[name$="[tipo_componente]"], select[name$="[tecnologia]"], select[name$="[version]"]')) {
+                        actualizarResumen(el.closest('.componente-row'));
+                    }
+                });
+
+                // Estado inicial: primera fila expandida, el resto (edit) colapsadas.
+                container.querySelectorAll('.componente-row').forEach(function (row, i) {
+                    expandir(row, i === 0);
                 });
 
                 reindex();

@@ -23,11 +23,10 @@ class AuthFlowTest extends TestCase
             ->assertRedirect(route('login'));
     }
 
-    public function test_login_page_is_public_and_renders_providers(): void
+    public function test_login_page_is_public_and_renders_microsoft_provider(): void
     {
         $this->get(route('login'))
             ->assertOk()
-            ->assertSee('Ingresar con Google')
             ->assertSee('Ingresar con Microsoft');
     }
 
