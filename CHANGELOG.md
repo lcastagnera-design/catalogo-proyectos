@@ -7,6 +7,25 @@ y el proyecto sigue la convención de [Commits Convencionales](https://www.conve
 
 ---
 
+## [3e5b088] - 2026-09-04
+
+### Added
+- **Campo "URL SharePoint" a nivel proyecto** (`feat`): nueva columna
+  `url_sharepoint` (opcional/nullable) en la tabla `proyectos`, con su
+  migración `2026_09_04_100000_add_url_sharepoint_to_proyectos_table.php`.
+  El campo se muestra en la plantilla de alta/edición
+  (`resources/views/proyectos/partials/_form.blade.php`) como input `type=url`
+  junto al estado del proyecto, se persiste en `store`/`update` y se valida
+  como `nullable|url|max:255` en `app/Http/Controllers/ProyectoController.php`.
+
+### Files
+- `database/migrations/2026_09_04_100000_add_url_sharepoint_to_proyectos_table.php`
+- `app/Models/Proyecto.php`
+- `app/Http/Controllers/ProyectoController.php`
+- `resources/views/proyectos/partials/_form.blade.php`
+
+---
+
 ## [00a2547] - 2026-09-04
 
 ### Changed
