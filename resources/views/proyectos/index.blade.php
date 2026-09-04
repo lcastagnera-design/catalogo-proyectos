@@ -14,59 +14,64 @@
 
     {{-- US-02: Filtros rápidos (búsqueda, área, estado, trimestre, orden). --}}
     <div class="bg-white rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,.08)] border border-gray-100 p-4 sm:p-5 mb-6">
-        <form action="{{ route('proyectos.index') }}" method="GET" class="flex flex-col lg:flex-row gap-3">
-            <div class="flex-1 min-w-[200px]">
+        <form action="{{ route('proyectos.index') }}" method="GET">
+            {{-- Buscador principal en su propia fila, ancho completo (legible). --}}
+            <div class="mb-3">
                 <label for="search" class="block text-xs font-semibold text-gray-600 mb-1">Buscar</label>
-                <input type="text" id="search" name="search" value="{{ request('search') }}" placeholder="Buscar por nombre de proyecto..." class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0054e9]/30 focus:border-[#0054e9] transition-colors bg-gray-50">
+                <input type="text" id="search" name="search" value="{{ request('search') }}"
+                       placeholder="Buscar por nombre de proyecto..." autofocus
+                       class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#0054e9]/30 focus:border-[#0054e9] transition-colors bg-gray-50">
             </div>
 
-            <div class="w-full lg:w-56">
-                <label for="area" class="block text-xs font-semibold text-gray-600 mb-1">Área solicitante</label>
-                <select id="area" name="area" class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0054e9]/30 focus:border-[#0054e9] bg-white transition-colors">
-                    <option value="">Todas las áreas</option>
-                    @foreach ($areas as $area)
-                        <option value="{{ $area }}" {{ request('area') === $area ? 'selected' : '' }}>{{ $area }}</option>
-                    @endforeach
-                </select>
-            </div>
+            <div class="flex flex-col lg:flex-row lg:items-end gap-3">
+                <div class="w-full lg:w-56">
+                    <label for="area" class="block text-xs font-semibold text-gray-600 mb-1">Área solicitante</label>
+                    <select id="area" name="area" class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0054e9]/30 focus:border-[#0054e9] bg-white transition-colors">
+                        <option value="">Todas las áreas</option>
+                        @foreach ($areas as $area)
+                            <option value="{{ $area }}" {{ request('area') === $area ? 'selected' : '' }}>{{ $area }}</option>
+                        @endforeach
+                    </select>
+                </div>
 
-            <div class="w-full lg:w-44">
-                <label for="estado" class="block text-xs font-semibold text-gray-600 mb-1">Estado</label>
-                <select id="estado" name="estado" class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0054e9]/30 focus:border-[#0054e9] bg-white transition-colors">
-                    <option value="">Todos los estados</option>
-                    @foreach ($estados as $estadoValor)
-                        <option value="{{ $estadoValor }}" {{ request('estado') === $estadoValor ? 'selected' : '' }}>
-                            {{ \App\Models\Proyecto::ESTADOS_LABELS[$estadoValor] ?? ucfirst($estadoValor) }}
-                        </option>
-                    @endforeach
-                    <option value="archivado" {{ request('estado') === 'archivado' ? 'selected' : '' }}>Archivado</option>
-                </select>
-            </div>
+                <div class="w-full lg:w-44">
+                    <label for="estado" class="block text-xs font-semibold text-gray-600 mb-1">Estado</label>
+                    <select id="estado" name="estado" class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0054e9]/30 focus:border-[#0054e9] bg-white transition-colors">
+                        <option value="">Todos los estados</option>
+                        @foreach ($estados as $estadoValor)
+                            <option value="{{ $estadoValor }}" {{ request('estado') === $estadoValor ? 'selected' : '' }}>
+                                {{ \App\Models\Proyecto::ESTADOS_LABELS[$estadoValor] ?? ucfirst($estadoValor) }}
+                            </option>
+                        @endforeach
+                        <option value="archivado" {{ request('estado') === 'archivado' ? 'selected' : '' }}>Archivado</option>
+                    </select>
+                </div>
 
-            <div class="w-full lg:w-36">
-                <label for="trimestre" class="block text-xs font-semibold text-gray-600 mb-1">Trimestre</label>
-                <select id="trimestre" name="trimestre" class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0054e9]/30 focus:border-[#0054e9] bg-white transition-colors">
-                    <option value="">Todos</option>
-                    @foreach (['Q1' => 'Trimestre 1', 'Q2' => 'Trimestre 2', 'Q3' => 'Trimestre 3', 'Q4' => 'Trimestre 4'] as $q => $label)
-                        <option value="{{ $q }}" {{ request('trimestre') === $q ? 'selected' : '' }}>{{ $label }}</option>
-                    @endforeach
-                </select>
-            </div>
+                <div class="w-full lg:w-36">
+                    <label for="trimestre" class="block text-xs font-semibold text-gray-600 mb-1">Trimestre</label>
+                    <select id="trimestre" name="trimestre" class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0054e9]/30 focus:border-[#0054e9] bg-white transition-colors">
+                        <option value="">Todos</option>
+                        @foreach (['Q1' => 'Trimestre 1', 'Q2' => 'Trimestre 2', 'Q3' => 'Trimestre 3', 'Q4' => 'Trimestre 4'] as $q => $label)
+                            <option value="{{ $q }}" {{ request('trimestre') === $q ? 'selected' : '' }}>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </div>
 
-            <div class="w-full lg:w-56">
-                <label for="orden" class="block text-xs font-semibold text-gray-600 mb-1">Última actualización</label>
-                <select id="orden" name="orden" class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0054e9]/30 focus:border-[#0054e9] bg-white transition-colors">
-                    <option value="">Recientes primero</option>
-                    <option value="updated_desc" {{ request('orden') === 'updated_desc' ? 'selected' : '' }}>Ultima actualización: recientes</option>
-                    <option value="updated_asc" {{ request('orden') === 'updated_asc' ? 'selected' : '' }}>Ultima actualización: antiguos</option>
-                </select>
-            </div>
+                <div class="w-full lg:w-56">
+                    <label for="orden" class="block text-xs font-semibold text-gray-600 mb-1">Última actualización</label>
+                    <select id="orden" name="orden" class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0054e9]/30 focus:border-[#0054e9] bg-white transition-colors">
+                        <option value="">Recientes primero</option>
+                        <option value="updated_desc" {{ request('orden') === 'updated_desc' ? 'selected' : '' }}>Ultima actualización: recientes</option>
+                        <option value="updated_asc" {{ request('orden') === 'updated_asc' ? 'selected' : '' }}>Ultima actualización: antiguos</option>
+                    </select>
+                </div>
 
-            <div class="flex items-end gap-2">
-                <button type="submit" class="bg-[#0054e9] hover:bg-[#003eb3] text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors shadow-sm whitespace-nowrap">Filtrar</button>
-                @if (request()->anyFilled(['search', 'area', 'estado', 'trimestre', 'orden']))
-                    <a href="{{ route('proyectos.index') }}" class="text-sm text-gray-500 hover:text-gray-700 px-3 py-2.5 text-center whitespace-nowrap">Limpiar</a>
-                @endif
+                <div class="flex items-end gap-2">
+                    <button type="submit" class="bg-[#0054e9] hover:bg-[#003eb3] text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors shadow-sm whitespace-nowrap">Filtrar</button>
+                    @if (request()->anyFilled(['search', 'area', 'estado', 'trimestre', 'orden']))
+                        <a href="{{ route('proyectos.index') }}" class="text-sm text-gray-500 hover:text-gray-700 px-3 py-2.5 text-center whitespace-nowrap">Limpiar</a>
+                    @endif
+                </div>
             </div>
         </form>
 
@@ -92,9 +97,32 @@
             </a>
         </div>
     @else
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        {{-- Toggle de vista: tarjetas / lista (preferencia guardada en localStorage). --}}
+        <div class="mb-4 flex items-center justify-between">
+            <p class="text-sm text-gray-500">{{ $proyectos->total() }} proyecto(s)</p>
+            <div class="inline-flex rounded-xl border border-gray-200 bg-white p-1 shadow-sm">
+                <button type="button" data-vista="cards" onclick="cambiarVista('cards')"
+                    class="vista-btn inline-flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-lg transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                    Tarjetas
+                </button>
+                <button type="button" data-vista="lista" onclick="cambiarVista('lista')"
+                    class="vista-btn inline-flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-lg transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    Lista
+                </button>
+            </div>
+        </div>
+
+        <div id="vista-cards" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             @foreach ($proyectos as $proyecto)
                 @include('proyectos.partials._card', compact('proyecto'))
+            @endforeach
+        </div>
+
+        <div id="vista-lista" class="hidden space-y-3">
+            @foreach ($proyectos as $proyecto)
+                @include('proyectos.partials._row', compact('proyecto'))
             @endforeach
         </div>
 
@@ -141,6 +169,31 @@
     // Cerrar con tecla Escape.
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') window.cerrarArchivar && window.cerrarArchivar();
+    });
+
+    // Vista tarjetas / lista (preferencia en localStorage).
+    const VISTA_KEY = 'catalogo.vista';
+    function aplicarVista(vista) {
+        const cards = document.getElementById('vista-cards');
+        const lista = document.getElementById('vista-lista');
+        if (!cards || !lista) return;
+        cards.classList.toggle('hidden', vista !== 'cards');
+        lista.classList.toggle('hidden', vista !== 'lista');
+        document.querySelectorAll('.vista-btn').forEach(function (btn) {
+            const activo = btn.dataset.vista === vista;
+            btn.classList.toggle('bg-[#0054e9]', activo);
+            btn.classList.toggle('text-white', activo);
+            btn.classList.toggle('text-gray-600', !activo);
+            btn.classList.toggle('hover:bg-gray-100', !activo);
+            btn.setAttribute('aria-pressed', activo ? 'true' : 'false');
+        });
+    }
+    window.cambiarVista = function (vista) {
+        localStorage.setItem(VISTA_KEY, vista);
+        aplicarVista(vista);
+    };
+    document.addEventListener('DOMContentLoaded', function () {
+        aplicarVista(localStorage.getItem(VISTA_KEY) === 'lista' ? 'lista' : 'cards');
     });
 </script>
 @endpush

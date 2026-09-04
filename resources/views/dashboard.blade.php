@@ -21,26 +21,14 @@
             </a>
         </div>
     @else
-        <div class="mb-6 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+        <div class="mb-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="bg-white rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,.08)] border border-gray-100 p-5">
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Proyectos activos</p>
                 <p class="text-3xl font-bold text-[#0054e9]">{{ $totalProyectos }}</p>
             </div>
-            @php
-                $maxRep = count($datosReparticion) ? max($datosReparticion) : 0;
-                $maxEst = count($datosEstado) ? max($datosEstado) : 0;
-            @endphp
             <div class="bg-white rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,.08)] border border-gray-100 p-5">
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Reparticiones</p>
                 <p class="text-3xl font-bold text-[#2a7a6a]">{{ count($etiquetasReparticion) }}</p>
-            </div>
-            <div class="bg-white rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,.08)] border border-gray-100 p-5">
-                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Mayor repartición</p>
-                <p class="text-3xl font-bold text-[#8f6b00]">{{ $maxRep }}</p>
-            </div>
-            <div class="bg-white rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,.08)] border border-gray-100 p-5">
-                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Mayor estado</p>
-                <p class="text-3xl font-bold text-green-600">{{ $maxEst }}</p>
             </div>
         </div>
 
