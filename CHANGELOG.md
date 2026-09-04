@@ -7,6 +7,42 @@ y el proyecto sigue la convención de [Commits Convencionales](https://www.conve
 
 ---
 
+## [03bbbb6] - 2026-09-04
+
+### Added
+- **Vista Lista en "Proyectos"** (`feat`): se agregó un toggle **Tarjetas / Lista**
+  en el listado (`resources/views/proyectos/index.blade.php`). La vista Lista
+  (nuevo partial `resources/views/proyectos/partials/_row.blade.php`) muestra,
+  por cada proyecto en una fila, la **misma información** que la card: nombre +
+  badge de estado, marca, área solicitante, n.° de componentes, selector de
+  cambio de estado (o "Archivado") y acciones Ver / Editar / Archivar.
+- **Preferencia de vista guardada en el navegador** (`feat`): el toggle persiste
+  la elección en `localStorage` (clave `catalogo.vista`), sin recargar la página
+  ni requerir backend. Por defecto muestra Tarjetas.
+
+### Changed
+- **Buscador en fila propia** (`feat`): el filtro "Buscar" de `index.blade.php`
+  pasó de compartir fila con los demás filtros a ocupar **una fila completa a
+  ancho de página, arriba** de los filtros generales (Área solicitante, Estado,
+  Trimestre, Última actualización). El input es más alto (`py-3`) y con
+  `autofocus`, de modo que el texto escrito es legible.
+- **Dashboard con dos tarjetas** (`feat`): se eliminaron las tarjetas
+  **"Mayor repartición"** y **"Mayor estado"** (no eran indicadores relevantes).
+  Quedan **"Proyectos activos"** y **"Reparticiones"**, y la grilla pasó de
+  4 columnas (`xl:grid-cols-4`) a 2 (`sm:grid-cols-2`). También se eliminó el
+  cálculo huérfano de `$maxRep`/`$maxEst`.
+- **Login solo con Microsoft** (`feat`): se eliminó el botón **"Ingresar con
+  Google"** de `resources/views/auth/login.blade.php`; queda únicamente
+  **"Ingresar con Microsoft"**, manteniendo el campo de Nombre.
+
+### Files
+- `resources/views/auth/login.blade.php`
+- `resources/views/dashboard.blade.php`
+- `resources/views/proyectos/index.blade.php`
+- `resources/views/proyectos/partials/_row.blade.php` (nuevo)
+
+---
+
 ## [18fd9b7] - 2026-09-04
 
 ### Added
